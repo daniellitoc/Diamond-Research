@@ -1,26 +1,24 @@
 package com.taobao.diamond.server.service;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Properties;
-
-import javax.annotation.PostConstruct;
-
-import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.commons.lang.StringUtils;
+import com.alibaba.druid.pool.DruidDataSource;
+import com.taobao.diamond.domain.ConfigInfo;
+import com.taobao.diamond.domain.Page;
+import com.taobao.diamond.server.utils.PaginationHelper;
+import com.taobao.diamond.utils.ResourceUtils;
+import com.taobao.diamond.utils.TimeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.stereotype.Service;
 
-import com.taobao.diamond.domain.ConfigInfo;
-import com.taobao.diamond.domain.Page;
-import com.taobao.diamond.server.utils.PaginationHelper;
-import com.taobao.diamond.utils.ResourceUtils;
-import com.taobao.diamond.utils.TimeUtils;
+import javax.annotation.PostConstruct;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Properties;
 
 
 /**
@@ -81,14 +79,14 @@ public class PersistService {
     public void initDataSource() throws Exception {
         // 读取jdbc.properties配置, 加载数据源
         Properties props = ResourceUtils.getResourceAsProperties("jdbc.properties");
-        BasicDataSource ds = new BasicDataSource();
+        DruidDataSource ds = new DruidDataSource();
         ds.setDriverClassName(JDBC_DRIVER_NAME);
         ds.setUrl(ensurePropValueNotNull(props.getProperty("db.url")));
         ds.setUsername(ensurePropValueNotNull(props.getProperty("db.user")));
         ds.setPassword(ensurePropValueNotNull(props.getProperty("db.password")));
         ds.setInitialSize(Integer.parseInt(ensurePropValueNotNull(props.getProperty("db.initialSize"))));
         ds.setMaxActive(Integer.parseInt(ensurePropValueNotNull(props.getProperty("db.maxActive"))));
-        ds.setMaxIdle(Integer.parseInt(ensurePropValueNotNull(props.getProperty("db.maxIdle"))));
+        ds.setMinIdle(Integer.parseInt(ensurePropValueNotNull(props.getProperty("db.minIdle"))));
         ds.setMaxWait(Long.parseLong(ensurePropValueNotNull(props.getProperty("db.maxWait"))));
         ds.setPoolPreparedStatements(Boolean.parseBoolean(ensurePropValueNotNull(props
             .getProperty("db.poolPreparedStatements"))));

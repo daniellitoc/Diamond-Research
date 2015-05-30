@@ -9,17 +9,12 @@
  */
 package com.taobao.diamond.io.watch;
 
-import java.util.Iterator;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.taobao.diamond.io.Path;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Iterator;
+import java.util.concurrent.*;
 
 
 /**
@@ -33,7 +28,7 @@ public final class WatchService {
 
     private BlockingQueue<WatchKey> watchedKeys = new LinkedBlockingQueue<WatchKey>();
 
-    private static final Log log = LogFactory.getLog(WatchService.class);
+    private static final Logger logger = LoggerFactory.getLogger(WatchService.class);
 
     private ScheduledExecutorService service;
 
@@ -66,7 +61,7 @@ public final class WatchService {
                     }
                 }
                 catch (Throwable t) {
-                    log.error("检测WatchKey异常,key=" + key, t);
+                    logger.error("检测WatchKey异常,key=" + key, t);
                 }
             }
         }

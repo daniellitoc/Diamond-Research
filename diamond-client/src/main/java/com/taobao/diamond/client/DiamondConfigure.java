@@ -88,7 +88,7 @@ public class DiamondConfigure {
     /**
      * 是否允许对陈旧的连接情况进行检测。<br>
      * 如果不检测，性能上会有所提升，但是，会有使用不可用连接的风险导致的IO Exception
-     * 
+     *
      * @return
      */
     public boolean isConnectionStaleCheckingEnabled() {
@@ -99,7 +99,7 @@ public class DiamondConfigure {
     /**
      * 设置是否允许对陈旧的连接情况进行检测。<br>
      * 不支持运行时动态更新
-     * 
+     *
      * @param connectionStaleCheckingEnabled
      */
     public void setConnectionStaleCheckingEnabled(boolean connectionStaleCheckingEnabled) {

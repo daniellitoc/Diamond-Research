@@ -9,24 +9,22 @@
  */
 package com.taobao.diamond.server.controller;
 
-import static com.taobao.diamond.common.Constants.LINE_SEPARATOR;
-import static com.taobao.diamond.common.Constants.WORD_SEPARATOR;
-
-import java.net.URLEncoder;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
 import com.taobao.diamond.common.Constants;
 import com.taobao.diamond.server.service.ConfigService;
 import com.taobao.diamond.server.service.DiskService;
 import com.taobao.diamond.server.utils.GlobalCounter;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
+import java.util.LinkedList;
+import java.util.List;
+
+import static com.taobao.diamond.common.Constants.LINE_SEPARATOR;
+import static com.taobao.diamond.common.Constants.WORD_SEPARATOR;
 
 
 /**

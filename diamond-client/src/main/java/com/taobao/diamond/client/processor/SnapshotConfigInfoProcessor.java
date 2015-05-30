@@ -9,18 +9,10 @@
  */
 package com.taobao.diamond.client.processor;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-
-import org.apache.commons.lang.StringUtils;
-
 import com.taobao.diamond.common.Constants;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.*;
 
 
 public class SnapshotConfigInfoProcessor {

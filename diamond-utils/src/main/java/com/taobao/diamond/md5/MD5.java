@@ -9,20 +9,19 @@
  */
 package com.taobao.diamond.md5;
 
+import com.taobao.diamond.common.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.taobao.diamond.common.Constants;
-
 
 public class MD5 {
-    private static final Log log = LogFactory.getLog(MD5.class);
+    private static final Logger logger = LoggerFactory.getLogger(MD5.class);
     private static char[] digits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
     private static Map<Character, Integer> rDigits = new HashMap<Character, Integer>(16);
@@ -129,8 +128,8 @@ public class MD5 {
             out[j++] = digits[0x0F & bt[i]];
         }
 
-        if (log.isDebugEnabled()) {
-            log.debug("[hash]" + (new String(out)));
+        if (logger.isDebugEnabled()) {
+            logger.debug("[hash]" + (new String(out)));
         }
 
         return new String(out);

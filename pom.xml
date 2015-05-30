@@ -10,6 +10,19 @@
 	<name>taobao diamond v${project.version}</name>
 
 	<properties>
+		<org.slf4j.version>1.7.5</org.slf4j.version>
+		<com.lmax.disruptor.version>3.2.1</com.lmax.disruptor.version>
+		<org.apache.logging.log4j.version>2.0</org.apache.logging.log4j.version>
+		<javax.servlet.javax.servlet-api.version>3.1.0</javax.servlet.javax.servlet-api.version>
+		<javax.servlet.jstl.version>1.2</javax.servlet.jstl.version>
+		<taglibs.standard.version>1.1.2</taglibs.standard.version>
+		<org.springframework.version>4.1.6.RELEASE</org.springframework.version>
+		<commons-io.version>2.4</commons-io.version>
+		<org.apache.httpcomponents.version>4.4.1</org.apache.httpcomponents.version>
+		<org.apache.commons.commons-lang3.version>3.4</org.apache.commons.commons-lang3.version>
+		<com.alibaba.druid.version>1.0.14</com.alibaba.druid.version>
+		<com.alibaba.fastjson.version>1.2.6</com.alibaba.fastjson.version>
+		<junit.junit.version>4.12</junit.junit.version>
 	</properties>
 
 	<modules>
@@ -19,66 +32,55 @@
 		<module>diamond-utils</module>
 	</modules>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>com.atlassian.maven.plugins</groupId>
-				<artifactId>maven-clover2-plugin</artifactId>
-				<configuration>
-					<licenseLocation>clover.license</licenseLocation>
-					<generateHistorical>true</generateHistorical>
-					<excludes>
-						<exclude>**/notjunit/*.java</exclude>
-					</excludes>
-					<generateXml>true</generateXml>
-					<generateHtml>true</generateHtml>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.5.1</version>
-				<configuration>
-					<downloadSources>true</downloadSources>
-					<downloadJavadocs>false</downloadJavadocs>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.3</version>
-				<configuration>
-					<argLine>-Xms512m -Xmx1024m</argLine>
-					<forkMode>always</forkMode>
-					<includes>
-						<include>**/*Test.java</include>
-					</includes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<configuration>
-					<locales>zh_CN</locales>
-					<outputEncoding>GBK</outputEncoding>
-					<inputEncoding>GBK</inputEncoding>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.0-beta-9</version>
-				<configuration>
-					<tagBase>http://www.xx.com/repos/diamond/tags</tagBase>
-				</configuration>
-			</plugin>
-
-		</plugins>
-	</build>
-
 	<dependencyManagement>
 		<dependencies>
+			<!-- 日志部分 -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${org.slf4j.version}</version>
+			</dependency>
+			<!-- 替换jcl(Jakarta Commons Logging) -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${org.slf4j.version}</version>
+			</dependency>
+			<!-- 替换log4j -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>log4j-over-slf4j</artifactId>
+				<version>${org.slf4j.version}</version>
+			</dependency>
+			<!-- 替换jul(java.util.logging) -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jul-to-slf4j</artifactId>
+				<version>${org.slf4j.version}</version>
+			</dependency>
+			<!-- 日志实现使用Log4j 2 -->
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-core</artifactId>
+				<version>${org.apache.logging.log4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-slf4j-impl</artifactId>
+				<version>${org.apache.logging.log4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lmax</groupId>
+				<artifactId>disruptor</artifactId>
+				<version>${com.lmax.disruptor.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-web</artifactId>
+				<version>${org.apache.logging.log4j.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
 			<dependency>
 				<groupId>${pom.groupId}</groupId>
 				<artifactId>diamond-client</artifactId>
@@ -89,31 +91,37 @@
 				<artifactId>diamond-utils</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+
 			<dependency>
 				<groupId>javax.servlet</groupId>
-				<artifactId>servlet-api</artifactId>
-				<version>2.5</version>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${javax.servlet.javax.servlet-api.version}</version>
 				<scope>provided</scope>
 			</dependency>
-			<dependency>
-				<groupId>jstl</groupId>
-				<artifactId>jstl</artifactId>
-				<version>1.1.2</version>
-			</dependency>
-			<dependency>
-				<groupId>taglibs</groupId>
-				<artifactId>standard</artifactId>
-				<version>1.1.2</version>
-			</dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>jstl</artifactId>
+                <version>${javax.servlet.jstl.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>taglibs</groupId>
+                <artifactId>standard</artifactId>
+                <version>${taglibs.standard.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-jdbc</artifactId>
-				<version>3.1.1.RELEASE</version>
+				<version>${org.springframework.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-webmvc</artifactId>
-				<version>3.1.1.RELEASE</version>
+				<version>${org.springframework.version}</version>
 			</dependency>
 			
 			<dependency>
@@ -122,131 +130,48 @@
 				<version>5.1.5</version>
 			</dependency>
 
-			<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-				<version>1.2.14</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging</artifactId>
-				<version>1.1</version>
-			</dependency>
+			<!--<dependency>-->
+				<!--<groupId>org.apache.httpcomponents</groupId>-->
+				<!--<artifactId>httpclient</artifactId>-->
+				<!--<version>${org.apache.httpcomponents.version}</version>-->
+			<!--</dependency>-->
+
 			<dependency>
 				<groupId>commons-httpclient</groupId>
 				<artifactId>commons-httpclient</artifactId>
 				<version>3.1</version>
 			</dependency>
-			<dependency>
-				<groupId>commons-dbcp</groupId>
-				<artifactId>commons-dbcp</artifactId>
-				<version>1.2.2</version>
-			</dependency>
+
 			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
-				<version>1.4</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-lang</groupId>
-				<artifactId>commons-lang</artifactId>
-				<version>2.6</version>
+				<version>${commons-io.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-core-lgpl</artifactId>
-				<version>1.4.0</version>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${org.apache.commons.commons-lang3.version}</version>
 			</dependency>
+
 			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-mapper-lgpl</artifactId>
-				<version>1.4.0</version>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${com.alibaba.druid.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${com.alibaba.fastjson.version}</version>
 			</dependency>
 			
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.4</version>
+				<version>${junit.junit.version}</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.5</version>
-				<configuration>
-					<encoding>GBK</encoding>
-					<charset>GBK</charset>
-				</configuration>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>javadoc</report>
-							<!-- <report>test-javadoc</report> -->
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.4.2</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.3</version>
-				<configuration>
-					<configLocation>checkstyle.xml</configLocation>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clover-plugin</artifactId>
-				<configuration>
-					<licenseLocation>clover.license</licenseLocation>
-					<generateHistorical>true</generateHistorical>
-					<generateXml>true</generateXml>
-					<generateHtml>true</generateHtml>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-pmd-plugin</artifactId>
-				<configuration>
-					<linkXref>true</linkXref>
-					<targetJdk>1.6</targetJdk>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>2.0.1</version>
-				<configuration>
-					<findbugsXmlOutput>true</findbugsXmlOutput>
-					<findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-					<xmlOutput>true</xmlOutput>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
-
-	<distributionManagement>
-        <repository>
-             <id>taocodeReleases</id>
-			 <name>taocode nexus</name>
-             <url>http://mvnrepo.code.taobao.org/nexus/content/repositories/releases/</url> 
-        </repository>
-        <snapshotRepository>
-              <id>taocodeSnapshots</id>
-			  <name>taocode nexus</name>
-              <url>http://mvnrepo.code.taobao.org/nexus/content/repositories/snapshots/</url>
-         </snapshotRepository>
-	</distributionManagement>
-
 </project>
