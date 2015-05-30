@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" verbose="true" strict="true">
+    <Appenders>
+        <RollingRandomAccessFile name="ServerDailyRollingFile"
+                                 fileName="${webapp.root}/WEB-INF/logs/diamondServer.log"
+                                 filePattern="${webapp.root}/WEB-INF/logs/diamondServer.log.%d{yyyy-MM-dd_HH}.%i.log.gz"
+                                 bufferSize="262144" immediateFlush="false" append="true">
+            <PatternLayout charset="UTF-8">
+                <Pattern>%d{yyy-MM-dd HH:mm:ss,SSS}{GMT+8} %level %logger [%thread] [traceId:%mdc{traceId}] - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy min="1" max="14" compressionLevel="9"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <Loggers>
+        <root level="INFO" includeLocation="false">
+            <AppenderRef ref="ServerDailyRollingFile"/>
+        </root>
+    </Loggers>
+</Configuration>
