@@ -77,9 +77,9 @@ public class NotifyService {
 
 
     /**
-     * 通知配置信息改变
-     * 
-     * @param id
+     * 通知配置信息改变。
+     *
+     * 遍历所有服务器，通过HTTP方式进行同步通知。
      */
     public void notifyConfigInfoChange(String dataId, String group) {
         Enumeration<?> enu = nodeProperties.propertyNames();
@@ -88,6 +88,7 @@ public class NotifyService {
             if (address.contains(SystemConfig.LOCAL_IP)) {
                 continue;
             }
+            //// 格式：http://{node}/diamond-server/notify.do
             String urlString = generateNotifyConfigInfoPath(dataId, group, address);
             final String result = invokeURL(urlString);
             log.info("通知节点" + address + "分组信息改变：" + result);

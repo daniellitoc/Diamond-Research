@@ -33,7 +33,9 @@ public class LoginController {
     @Autowired
     private AdminService adminService;
 
-
+    /**
+     * 登录。
+     */
     @RequestMapping(params = "method=login", method = RequestMethod.POST)
     public String login(HttpServletRequest request, @RequestParam("username") String username,
             @RequestParam("password") String password, ModelMap modelMap) {
@@ -57,7 +59,9 @@ public class LoginController {
         this.adminService = adminService;
     }
 
-
+    /**
+     * 注销。
+     */
     @RequestMapping(params = "method=logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request) {
         request.getSession().invalidate();

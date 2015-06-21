@@ -43,6 +43,9 @@ public class ConfigController {
     private DiskService diskService;
 
 
+    /**
+     * 转发到本地磁盘文件上。
+     */
     public String getConfig(HttpServletRequest request, HttpServletResponse response, String dataId, String group) {
         response.setHeader("Content-Type", "text/html;charset=GBK");
         final String address = getRemortIP(request);
@@ -52,11 +55,13 @@ public class ConfigController {
             return "400";
         }
 
+        //// 用于限制是否可用
         if (GlobalCounter.getCounter().decrementAndGet() >= 0) {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return "503";
         }
 
+        //// 先从本地Cache取MD5。
         String md5 = this.configService.getContentMD5(dataId, group);
         if (md5 == null) {
             return "404";
@@ -82,7 +87,9 @@ public class ConfigController {
         return "forward:" + path;
     }
 
-
+    /**
+     * 处理一段给定的内容，内容会被转换为配置信息列表，返回配置信息列表中，有变化的的配置信息。
+     */
     public String getProbeModifyResult(HttpServletRequest request, HttpServletResponse response, String probeModify) {
         response.setHeader("Content-Type", "text/html;charset=GBK");
         final String address = getRemortIP(request);
@@ -92,6 +99,7 @@ public class ConfigController {
             return "400";
         }
 
+        //// 用于限制是否可用
         if (GlobalCounter.getCounter().decrementAndGet() >= 0) {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             return "503";

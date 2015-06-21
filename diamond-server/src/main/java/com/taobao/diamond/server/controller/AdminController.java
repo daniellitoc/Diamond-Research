@@ -55,7 +55,9 @@ public class AdminController {
     @Autowired
     private ConfigService configService;
 
-
+    /**
+     * 保存配置信息。
+     */
     @RequestMapping(params = "method=postConfig", method = RequestMethod.POST)
     public String postConfig(HttpServletRequest request, HttpServletResponse response,
             @RequestParam("dataId") String dataId, @RequestParam("group") String group,
@@ -90,7 +92,9 @@ public class AdminController {
         return listConfig(request, response, dataId, group, 1, 20, modelMap);
     }
 
-
+    /**
+     * 删除配置信息。
+     */
     @RequestMapping(params = "method=deleteConfig", method = RequestMethod.GET)
     public String deleteConfig(HttpServletRequest request, HttpServletResponse response, @RequestParam("id") long id,
             ModelMap modelMap) {
@@ -100,7 +104,9 @@ public class AdminController {
         return "/admin/config/list";
     }
 
-
+    /**
+     * 保存配置信息（文件上传）。
+     */
     @RequestMapping(params = "method=upload", method = RequestMethod.POST)
     public String upload(HttpServletRequest request, HttpServletResponse response,
             @RequestParam("dataId") String dataId, @RequestParam("group") String group,
@@ -132,7 +138,9 @@ public class AdminController {
         return listConfig(request, response, dataId, group, 1, 20, modelMap);
     }
 
-
+    /**
+     * 更新配置信息（文件上传）。
+     */
     @RequestMapping(params = "method=reupload", method = RequestMethod.POST)
     public String reupload(HttpServletRequest request, HttpServletResponse response,
             @RequestParam("dataId") String dataId, @RequestParam("group") String group,
@@ -179,7 +187,9 @@ public class AdminController {
         }
     }
 
-
+    /**
+     * 更新配置信息。
+     */
     @RequestMapping(params = "method=updateConfig", method = RequestMethod.POST)
     public String updateConfig(HttpServletRequest request, HttpServletResponse response,
             @RequestParam("dataId") String dataId, @RequestParam("group") String group,
@@ -213,7 +223,9 @@ public class AdminController {
         return listConfig(request, response, dataId, group, 1, 20, modelMap);
     }
 
-
+    /**
+     * 分页展示配置信息的列表（基于数据节点）。
+     */
     @RequestMapping(params = "method=listConfig", method = RequestMethod.GET)
     public String listConfig(HttpServletRequest request, HttpServletResponse response,
             @RequestParam("dataId") String dataId, @RequestParam("group") String group,
@@ -239,7 +251,9 @@ public class AdminController {
         }
     }
 
-
+    /**
+     * 分页展示配置信息的的列表（模糊查询）。
+     */
     @RequestMapping(params = "method=listConfigLike", method = RequestMethod.GET)
     public String listConfigLike(HttpServletRequest request, HttpServletResponse response,
             @RequestParam("dataId") String dataId, @RequestParam("group") String group,
@@ -270,7 +284,9 @@ public class AdminController {
         }
     }
 
-
+    /**
+     * 进入编辑页面。
+     */
     @RequestMapping(params = "method=detailConfig", method = RequestMethod.GET)
     public String getConfigInfo(HttpServletRequest request, HttpServletResponse response,
             @RequestParam("dataId") String dataId, @RequestParam("group") String group, ModelMap modelMap) {
@@ -284,6 +300,9 @@ public class AdminController {
 
     // =========================== 批量处理 ============================== //
 
+    /**
+     * 返回批量查询结果。
+     */
     @RequestMapping(params = "method=batchQuery", method = RequestMethod.POST)
     public String batchQuery(HttpServletRequest request, HttpServletResponse response,
             @RequestParam("dataIds") String dataIds, @RequestParam("group") String group, ModelMap modelMap) {
@@ -351,7 +370,9 @@ public class AdminController {
         return "/admin/config/batch_result";
     }
 
-
+    /**
+     * 批量添加或更新。
+     */
     @RequestMapping(params = "method=batchAddOrUpdate", method = RequestMethod.POST)
     public String batchAddOrUpdate(HttpServletRequest request, HttpServletResponse response,
             @RequestParam("allDataIdAndContent") String allDataIdAndContent, @RequestParam("group") String group,

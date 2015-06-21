@@ -73,6 +73,14 @@ public class DiskService {
     }
 
 
+    /**
+     * 保存配置信息到本地磁盘。
+     *
+     * 文件：webapps/config-data/group/dataId
+     * 内容：content
+     *
+     * @param configInfo 配置信息。
+     */
     public void saveToDisk(ConfigInfo configInfo) {
         String group = configInfo.getGroup();
         String dataId = configInfo.getDataId();
@@ -82,7 +90,7 @@ public class DiskService {
         if (this.modifyMarkCache.putIfAbsent(cacheKey, true) == null) {
             File tempFile = null;
             try {
-                // 目标目录
+                // 获取config-data/group对应在webapps下的目录。
                 String groupPath = getFilePath(Constants.BASE_DIR + "/" + group);
                 createDirIfNessary(groupPath);
                 // 目标文件
@@ -114,7 +122,13 @@ public class DiskService {
 
     }
 
-
+    /**
+     * 当前是否存在修改。
+     *
+     * @param dataId 数据节点。
+     * @param group 所属分组。
+     * @return 当前存在修改返回true，否则返回false。
+     */
     public boolean isModified(String dataId, String group) {
         return this.modifyMarkCache.get(generateCacheKey(group, dataId)) != null;
     }
@@ -133,6 +147,12 @@ public class DiskService {
     }
 
 
+    /**
+     * 移除指定分组下的数据节点。
+     *
+     * @param dataId 数据节点。
+     * @param group 所属分组。
+     */
     public void removeConfigInfo(String dataId, String group) {
         String cacheKey = generateCacheKey(group, dataId);
         // 标记正在写磁盘

@@ -49,8 +49,11 @@ public class TimerTaskService {
 
         });
 
+        //// 从数据库中加载所有配置信息，持久化到本地磁盘。
         DumpConfigInfoTask dumpTask = new DumpConfigInfoTask(this);
+        //// 同步执行一次
         dumpTask.run();
+        //// 定期执行。
         this.scheduledExecutorService.scheduleWithFixedDelay(dumpTask, SystemConfig.getDumpConfigInterval(),
             SystemConfig.getDumpConfigInterval(), TimeUnit.SECONDS);
     }

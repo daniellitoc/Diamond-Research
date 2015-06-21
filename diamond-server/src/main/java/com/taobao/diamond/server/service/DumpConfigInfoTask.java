@@ -58,8 +58,9 @@ public final class DumpConfigInfoTask implements Runnable {
                 continue;
             }
             try {
-                // 写入磁盘，更新缓存
+                //// 更新MD5
                 this.timerTaskService.getConfigService().updateMD5Cache(configInfo);
+                //// 写入本地磁盘
                 this.timerTaskService.getDiskService().saveToDisk(configInfo);
             }
             catch (Throwable t) {

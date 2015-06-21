@@ -43,10 +43,10 @@ public class NotifyController {
 
 
     /**
-     * 通知配置信息改变
-     * 
-     * @param id
-     * @return
+     * 将配置信息从数据库加载到磁盘。
+     *
+     * @param dataId 数据节点。
+     * @param group 所属分组。
      */
     @RequestMapping(method = RequestMethod.GET, params = "method=notifyConfigInfo")
     public String notifyConfigInfo(@RequestParam("dataId") String dataId, @RequestParam("group") String group) {

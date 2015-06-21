@@ -36,7 +36,7 @@ public class AuthorizationFilter implements Filter {
 
     }
 
-
+    //// 验证是session中是否存在user属性
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;

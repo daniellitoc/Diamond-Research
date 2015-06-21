@@ -16,7 +16,9 @@ import com.taobao.diamond.common.Constants;
 import com.taobao.diamond.server.service.ConfigService;
 import com.taobao.diamond.server.service.DiskService;
 
-
+/**
+ * 客户端 API。
+ */
 public class ConfigServlet extends HttpServlet {
 
     private static final long serialVersionUID = 4339468526746635388L;
@@ -62,7 +64,9 @@ public class ConfigServlet extends HttpServlet {
         requestDispatcher.forward(request, response);
     }
 
-
+    /**
+     * 检测节点配置是否发生变化
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
@@ -73,7 +77,9 @@ public class ConfigServlet extends HttpServlet {
         forward(request, response, page, "/jsp/", ".jsp");
     }
 
-
+    /**
+     * 请求获取节点配置
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String group = request.getParameter("group");

@@ -99,7 +99,10 @@ public class PersistService {
         this.jt.setQueryTimeout(QUERY_TIMEOUT);
     }
 
-
+    /**
+     * 添加配置信息。
+     * @param configInfo 配置信息。
+     */
     public void addConfigInfo(final ConfigInfo configInfo) {
         final Timestamp time = TimeUtils.getCurrentTime();
 
@@ -118,7 +121,10 @@ public class PersistService {
             });
     }
 
-
+    /**
+     * 通过dataId、group移除配置信息。
+     * @param configInfo 配置信息。
+     */
     public void removeConfigInfo(final ConfigInfo configInfo) {
         this.jt.update("delete from config_info where data_id=? and group_id=?", new PreparedStatementSetter() {
             public void setValues(PreparedStatement ps) throws SQLException {
@@ -129,7 +135,10 @@ public class PersistService {
         });
     }
 
-
+    /**
+     * 更新dataId、group对应的信息。
+     * @param configInfo 配置信息。
+     */
     public void updateConfigInfo(final ConfigInfo configInfo) {
         final Timestamp time = TimeUtils.getCurrentTime();
 
@@ -147,7 +156,13 @@ public class PersistService {
             });
     }
 
-
+    /**
+     * 获取配置信息。
+     *
+     * @param dataId 数据节点。
+     * @param group 所属分组。
+     * @return 配置信息。
+     */
     public ConfigInfo findConfigInfo(final String dataId, final String group) {
         try {
             return this.jt.queryForObject(
@@ -160,7 +175,12 @@ public class PersistService {
         }
     }
 
-
+    /**
+     * 获取配置信息。
+     *
+     * @param id ID。
+     * @return 配置信息。
+     */
     public ConfigInfo findConfigInfo(long id) {
         try {
             return this.jt.queryForObject("select id,data_id,group_id,content,md5 from config_info where id=?",
@@ -171,7 +191,14 @@ public class PersistService {
         }
     }
 
-
+    /**
+     * 获取配置信息列表。
+     *
+     * @param pageNo 页码。
+     * @param pageSize 显示个数。
+     * @param dataId 数据节点。
+     * @return 配置信息列表。
+     */
     public Page<ConfigInfo> findConfigInfoByDataId(final int pageNo, final int pageSize, final String dataId) {
         PaginationHelper<ConfigInfo> helper = new PaginationHelper<ConfigInfo>();
         return helper.fetchPage(this.jt, "select count(id) from config_info where data_id=?",
@@ -179,7 +206,14 @@ public class PersistService {
             pageSize, CONFIG_INFO_ROW_MAPPER);
     }
 
-
+    /**
+     * 获取配置信息列表。
+     *
+     * @param pageNo 页码。
+     * @param pageSize 显示个数。
+     * @param group 分组。
+     * @return 配置信息列表。
+     */
     public Page<ConfigInfo> findConfigInfoByGroup(final int pageNo, final int pageSize, final String group) {
         PaginationHelper<ConfigInfo> helper = new PaginationHelper<ConfigInfo>();
         return helper.fetchPage(this.jt, "select count(id) from config_info where group_id=?",
@@ -188,6 +222,13 @@ public class PersistService {
     }
 
 
+    /**
+     * 获取配置信息列表。
+     *
+     * @param pageNo 页码。
+     * @param pageSize 显示个数。
+     * @return 配置信息列表。
+     */
     public Page<ConfigInfo> findAllConfigInfo(final int pageNo, final int pageSize) {
         PaginationHelper<ConfigInfo> helper = new PaginationHelper<ConfigInfo>();
         return helper.fetchPage(this.jt, "select count(id) from config_info order by id",
@@ -196,6 +237,15 @@ public class PersistService {
     }
 
 
+    /**
+     * 获取配置信息列表(模糊查询)。
+     *
+     * @param pageNo 页码。
+     * @param pageSize 显示个数。
+     * @param dataId 数据节点。
+     * @param group 分组。
+     * @return 配置信息列表。
+     */
     public Page<ConfigInfo> findConfigInfoLike(final int pageNo, final int pageSize, final String dataId,
             final String group) {
         if (StringUtils.isBlank(dataId) && StringUtils.isBlank(group)) {

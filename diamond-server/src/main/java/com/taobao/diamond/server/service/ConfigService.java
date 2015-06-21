@@ -88,12 +88,18 @@ public class ConfigService {
         return sb.toString();
     }
 
-
+    /**
+     * 移除配置信息。
+     */
     public void removeConfigInfo(long id) {
         try {
             ConfigInfo configInfo = this.persistService.findConfigInfo(id);
+
+            //// 从本地系统
             this.diskService.removeConfigInfo(configInfo.getDataId(), configInfo.getGroup());
+            //// 移除MD5缓存
             this.contentMD5Cache.remove(generateMD5CacheKey(configInfo.getDataId(), configInfo.getGroup()));
+            //// 从数据库
             this.persistService.removeConfigInfo(configInfo);
             // 通知其他节点
             this.notifyOtherNodes(configInfo.getDataId(), configInfo.getGroup());
@@ -106,6 +112,9 @@ public class ConfigService {
     }
 
 
+    /**
+     * 添加配置。
+     */
     public void addConfigInfo(String dataId, String group, String content) {
         checkParameter(dataId, group, content);
         ConfigInfo configInfo = new ConfigInfo(dataId, group, content);
@@ -127,10 +136,6 @@ public class ConfigService {
 
     /**
      * 更新配置信息
-     * 
-     * @param dataId
-     * @param group
-     * @param content
      */
     public void updateConfigInfo(String dataId, String group, String content) {
         checkParameter(dataId, group, content);
@@ -152,9 +157,10 @@ public class ConfigService {
 
 
     /**
-     * 将配置信息从数据库加载到磁盘
-     * 
-     * @param id
+     * 将配置信息从数据库加载到磁盘。
+     *
+     * @param dataId 数据节点。
+     * @param group 所属分组。
      */
     public void loadConfigInfoToDisk(String dataId, String group) {
         try {
@@ -175,7 +181,13 @@ public class ConfigService {
         }
     }
 
-
+    /**
+     * 从数据库获取配置信息。
+     *
+     * @param dataId 数据节点。
+     * @param group 所属分组。
+     * @return 配置信息。
+     */
     public ConfigInfo findConfigInfo(String dataId, String group) {
         return persistService.findConfigInfo(dataId, group);
     }
@@ -183,12 +195,6 @@ public class ConfigService {
 
     /**
      * 分页查找配置信息
-     * 
-     * @param pageNo
-     * @param pageSize
-     * @param group
-     * @param dataId
-     * @return
      */
     public Page<ConfigInfo> findConfigInfo(final int pageNo, final int pageSize, final String group, final String dataId) {
         if (StringUtils.hasLength(dataId) && StringUtils.hasLength(group)) {
@@ -216,12 +222,6 @@ public class ConfigService {
 
     /**
      * 分页模糊查找配置信息
-     * 
-     * @param pageNo
-     * @param pageSize
-     * @param group
-     * @param dataId
-     * @return
      */
     public Page<ConfigInfo> findConfigInfoLike(final int pageNo, final int pageSize, final String group,
             final String dataId) {

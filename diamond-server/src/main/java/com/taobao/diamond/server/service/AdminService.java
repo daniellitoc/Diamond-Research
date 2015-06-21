@@ -55,6 +55,9 @@ public class AdminService {
     }
 
 
+    /**
+     * 从user.properties文件中加载用户信息。
+     */
     public void loadUsers() {
         Properties tempProperties = new Properties();
         InputStream in = null;
@@ -79,7 +82,12 @@ public class AdminService {
         this.properties = tempProperties;
     }
 
-
+    /**
+     * 判断指定用户名和密码是否存在。
+     * @param userName 用户名。
+     * @param password 密码。
+     * @return 存在返回true，否则返回false。
+     */
     public synchronized boolean login(String userName, String password) {
         String passwordInFile = this.properties.getProperty(userName);
         if (passwordInFile != null)
@@ -88,7 +96,12 @@ public class AdminService {
             return false;
     }
 
-
+    /**
+     * 添加用户。
+     * @param userName 用户名。
+     * @param password 密码。
+     * @return 持久化成功返回true，否则返回false。
+     */
     public synchronized boolean addUser(String userName, String password) {
         if (this.properties.containsKey(userName))
             return false;
@@ -122,7 +135,10 @@ public class AdminService {
         }
     }
 
-
+    /**
+     * 获取所有用户信息。
+     * @return 用户信息列表。
+     */
     public synchronized Map<String, String> getAllUsers() {
         Map<String, String> result = new HashMap<String, String>();
         Enumeration<?> enu = this.properties.keys();
@@ -134,7 +150,12 @@ public class AdminService {
         return result;
     }
 
-
+    /**
+     * 更新用户密码。
+     * @param userName 用户名。
+     * @param newPassword 新密码。
+     * @return 持久化成功返回true，否则返回false。
+     */
     public synchronized boolean updatePassword(String userName, String newPassword) {
         if (!this.properties.containsKey(userName))
             return false;
@@ -142,7 +163,11 @@ public class AdminService {
         return saveToDisk();
     }
 
-
+    /**
+     * 删除用户。
+     * @param userName 用户名。
+     * @return 持久化成功返回true，否则返回false。
+     */
     public synchronized boolean removeUser(String userName) {
         if (this.properties.size() == 1)
             return false;
