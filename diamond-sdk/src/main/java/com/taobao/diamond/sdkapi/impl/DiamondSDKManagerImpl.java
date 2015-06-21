@@ -71,7 +71,7 @@ public class DiamondSDKManagerImpl implements DiamondSDKManager {
         client.getHttpConnectionManager().getParams().setConnectionTimeout(this.connection_timeout);
         // 设置读超时为1分钟
         client.getHttpConnectionManager().getParams().setSoTimeout(60 * 1000);
-        client.getParams().setContentCharset("GBK");
+        client.getParams().setContentCharset("UTF-8");
         log.info("设置连接超时时间为: " + this.connection_timeout + "毫秒");
     }
 

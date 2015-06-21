@@ -59,7 +59,7 @@ public class Constants {
 
     public static final String HTTP_URI_LOGIN = "/url";
 
-    public static final String ENCODE = "GBK";
+    public static final String ENCODE = "UTF-8";
 
     public static final String LINE_SEPARATOR = Character.toString((char) 1);
 

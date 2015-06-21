@@ -1,4 +1,4 @@
-<%@page contentType="text/html;charset=GBK" isErrorPage="true"%>
+<%@page contentType="text/html;charset=UTF-8" isErrorPage="true"%>
 <html>
 <head><title>出现错误</title>
 <script type="text/javascript">

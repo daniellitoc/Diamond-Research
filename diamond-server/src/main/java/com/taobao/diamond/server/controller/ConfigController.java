@@ -47,7 +47,7 @@ public class ConfigController {
      * 转发到本地磁盘文件上。
      */
     public String getConfig(HttpServletRequest request, HttpServletResponse response, String dataId, String group) {
-        response.setHeader("Content-Type", "text/html;charset=GBK");
+        response.setHeader("Content-Type", "text/html;charset=UTF-8");
         final String address = getRemortIP(request);
         if (address == null) {
             // 未找到远端地址，返回400错误
@@ -91,7 +91,7 @@ public class ConfigController {
      * 处理一段给定的内容，内容会被转换为配置信息列表，返回配置信息列表中，有变化的的配置信息。
      */
     public String getProbeModifyResult(HttpServletRequest request, HttpServletResponse response, String probeModify) {
-        response.setHeader("Content-Type", "text/html;charset=GBK");
+        response.setHeader("Content-Type", "text/html;charset=UTF-8");
         final String address = getRemortIP(request);
         if (address == null) {
             // 未找到远端地址，返回400错误
