@@ -23,6 +23,7 @@ import com.taobao.diamond.mockserver.MockServer;
 import com.taobao.diamond.utils.LoggerInit;
 import com.taobao.diamond.utils.SimpleCache;
 import org.apache.commons.httpclient.*;
+import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
@@ -35,7 +36,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URLDecoder;
+import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
@@ -160,7 +161,7 @@ class DefaultDiamondSubscriber implements DiamondSubscriber {
     private void randomDomainNamePos() {
         // 随机化起始服务器地址
         Random rand = new Random();
-        List<String> domainList = this.diamondConfigure.getDomainNameList();
+        List<HttpHost> domainList = this.diamondConfigure.getDomainNameList();
         if (!domainList.isEmpty()) {
             this.domainNamePos.set(rand.nextInt(domainList.size()));
         }
@@ -185,8 +186,7 @@ class DefaultDiamondSubscriber implements DiamondSubscriber {
             return;
         }
         HostConfiguration hostConfiguration = new HostConfiguration();
-        hostConfiguration.setHost(diamondConfigure.getDomainNameList().get(this.domainNamePos.get()),
-            diamondConfigure.getPort());
+        hostConfiguration.setHost(diamondConfigure.getDomainNameList().get(this.domainNamePos.get()));
 
         MultiThreadedHttpConnectionManager connectionManager = new MultiThreadedHttpConnectionManager();
         connectionManager.closeIdleConnections(diamondConfigure.getPollingIntervalTime() * 4000);
@@ -247,8 +247,6 @@ class DefaultDiamondSubscriber implements DiamondSubscriber {
 
     /**
      * 向DiamondServer请求dataId对应的配置信息，并将结果抛给客户的监听器
-     * 
-     * @param dataId
      */
     private void receiveConfigInfo(final CacheData cacheData) {
         scheduledExecutor.execute(new Runnable() {
@@ -767,8 +765,7 @@ class DefaultDiamondSubscriber implements DiamondSubscriber {
         params.setSoTimeout((int) onceTimeOut);
         // ///////////////////////
         httpMethod.setParams(params);
-        httpClient.getHostConfiguration().setHost(diamondConfigure.getDomainNameList().get(this.domainNamePos.get()),
-            diamondConfigure.getPort());
+        httpClient.getHostConfiguration().setHost(diamondConfigure.getDomainNameList().get(this.domainNamePos.get()));
     }
 
 
@@ -817,9 +814,7 @@ class DefaultDiamondSubscriber implements DiamondSubscriber {
             postMethod.setParams(params);
 
             try {
-                httpClient.getHostConfiguration()
-                    .setHost(diamondConfigure.getDomainNameList().get(this.domainNamePos.get()),
-                        this.diamondConfigure.getPort());
+                httpClient.getHostConfiguration().setHost(diamondConfigure.getDomainNameList().get(this.domainNamePos.get()));
 
                 int httpStatus = httpClient.executeMethod(postMethod);
 
@@ -877,9 +872,6 @@ class DefaultDiamondSubscriber implements DiamondSubscriber {
 
     /**
      * 获取探测更新的DataID的请求字符串
-     * 
-     * @param localModifySet
-     * @return
      */
     private String getProbeUpdateString() {
         // 获取check的DataID:Group:MD5串

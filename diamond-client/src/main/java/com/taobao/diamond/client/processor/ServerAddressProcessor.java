@@ -315,19 +315,12 @@ public class ServerAddressProcessor {
         HostConfiguration hostConfiguration = configHttpClient.getHostConfiguration();
         String configServerAddress;
         int port;
-        if (null != diamondConfigure.getConfigServerAddress()) {
-            configServerAddress = diamondConfigure.getConfigServerAddress();
-            port = diamondConfigure.getConfigServerPort();
-        }
-        else {
-            if (acquireCount == 0) {
-                configServerAddress = Constants.DEFAULT_DOMAINNAME;
-                port = Constants.DEFAULT_PORT;
-            }
-            else {
-                configServerAddress = Constants.DAILY_DOMAINNAME;
-                port = Constants.DEFAULT_PORT;
-            }
+        if (acquireCount == 0) {
+            configServerAddress = Constants.DEFAULT_DOMAINNAME;
+            port = Constants.DEFAULT_PORT;
+        } else {
+            configServerAddress = Constants.DAILY_DOMAINNAME;
+            port = Constants.DEFAULT_PORT;
         }
         hostConfiguration.setHost(configServerAddress, port);
 

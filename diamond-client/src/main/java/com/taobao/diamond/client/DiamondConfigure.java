@@ -9,13 +9,15 @@
  */
 package com.taobao.diamond.client;
 
+import com.taobao.diamond.common.Constants;
+import com.taobao.diamond.mockserver.MockServer;
+import com.taobao.diamond.util.HttpHostUtils;
+import org.apache.commons.httpclient.HttpHost;
+
 import java.io.File;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.taobao.diamond.common.Constants;
-import com.taobao.diamond.mockserver.MockServer;
 
 
 /**
@@ -30,7 +32,7 @@ public class DiamondConfigure {
     private volatile int onceTimeout = Constants.ONCE_TIMEOUT;// 获取对于一个DiamondServer所对应的查询一个DataID对应的配置信息的Timeout时间
     private volatile int receiveWaitTime = Constants.RECV_WAIT_TIMEOUT;// 同步查询一个DataID所花费的时间
 
-    private volatile List<String> domainNameList = new LinkedList<String>();
+    private volatile List<HttpHost> domainNameList = new LinkedList<HttpHost>();
 
     private volatile boolean useFlowControl = true;
 
@@ -41,13 +43,9 @@ public class DiamondConfigure {
     private boolean connectionStaleCheckingEnabled = true;
     private int maxTotalConnections = 20;
     private int connectionTimeout = Constants.CONN_TIMEOUT;
-    private int port = Constants.DEFAULT_PORT;
     private int scheduledThreadPoolSize = 1;
     // 获取数据时的重试次数
     private int retrieveDataRetryTimes = Integer.MAX_VALUE / 10;
-
-    private String configServerAddress = null;
-    private int configServerPort = Constants.DEFAULT_PORT;
 
     // 本地数据保存路径
     private String filePath;
@@ -158,7 +156,7 @@ public class DiamondConfigure {
      * 
      * @return
      */
-    public List<String> getDomainNameList() {
+    public List<HttpHost> getDomainNameList() {
         return domainNameList;
     }
 
@@ -172,7 +170,7 @@ public class DiamondConfigure {
         if (null == domainNameList) {
             throw new NullPointerException();
         }
-        this.domainNameList = new LinkedList<String>(domainNameList);
+        this.domainNameList = new LinkedList<HttpHost>(HttpHostUtils.valuesOf(domainNameList));
     }
 
 
@@ -185,7 +183,7 @@ public class DiamondConfigure {
         if (null == domainName) {
             throw new NullPointerException();
         }
-        this.domainNameList.add(domainName);
+        this.domainNameList.add(HttpHostUtils.valueOf(domainName));
     }
 
 
@@ -198,30 +196,8 @@ public class DiamondConfigure {
         if (null == domainNameList) {
             throw new NullPointerException();
         }
-        this.domainNameList.addAll(domainNameList);
+        this.domainNameList.addAll(HttpHostUtils.valuesOf(domainNameList));
     }
-
-
-    /**
-     * 获取DiamondServer的端口号
-     * 
-     * @return
-     */
-    public int getPort() {
-        return port;
-    }
-
-
-    /**
-     * 设置DiamondServer的端口号<br>
-     * 不支持运行时动态更新
-     * 
-     * @param port
-     */
-    public void setPort(int port) {
-        this.port = port;
-    }
-
 
     /**
      * 获取探测本地文件的路径
@@ -349,26 +325,6 @@ public class DiamondConfigure {
      */
     public void setUseFlowControl(boolean useFlowControl) {
         this.useFlowControl = useFlowControl;
-    }
-
-
-    public String getConfigServerAddress() {
-        return configServerAddress;
-    }
-
-
-    public void setConfigServerAddress(String configServerAddress) {
-        this.configServerAddress = configServerAddress;
-    }
-
-
-    public int getConfigServerPort() {
-        return configServerPort;
-    }
-
-
-    public void setConfigServerPort(int configServerPort) {
-        this.configServerPort = configServerPort;
     }
 
 
