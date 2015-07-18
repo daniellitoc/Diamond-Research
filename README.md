@@ -2,9 +2,12 @@
 
 一个持久配置管理中心，核心功能是使应用在运行中感知配置数据的变化。
 
-## 附加功能
+## 源码分析
 
-* 源码分析
+* https://github.com/daniellitoc/Diamond-Research/tree/master/diamond-utils
+* https://github.com/daniellitoc/Diamond-Research/tree/master/diamond-client
+* https://github.com/daniellitoc/Diamond-Research/tree/master/diamond-server
+
 
 ## 使用
 
